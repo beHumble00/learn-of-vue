@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-axios错误处理</title>
+</head>
+
+<body>
+  <button class="btn">注册用户</button>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    /*
+      如果注册相同的用户名，则会遇到注册失败的请求，也就是 axios 请求响应失败了, 可以在控制台看到相关的错误信息
+    */
+
+    /* 
+      使用 axios 的 catch 方法，捕获这次请求响应的错误并做后续处理，语法如下：
+        axios({
+          // ...请求选项
+        }).then(result => {
+          // 处理成功数据
+        }).catch(error => {
+          // 处理失败错误
+        })
+    */
+    document.querySelector('.btn').addEventListener('click', () => {
+      axios({
+        url: 'http://hmajax.itheima.net/api/register',
+        method: 'POST',
+        data: {
+          username: 'LeJInFan',
+          password: 'theUnknownGirl'
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        alert(err.response.data.message)
+      })
+    })
+  </script>
+</body>
+
+</html>

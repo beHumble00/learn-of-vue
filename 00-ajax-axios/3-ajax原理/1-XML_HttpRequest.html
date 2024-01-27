@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  const xhr = new XMLHttpRequest();
+  /* 
+    open(requestMethod,url) - 发出请求
+  */
+  xhr.open('GET', 'http://hmajax.itheima.net/api/province');
+
+  /* 
+    监听 loadend 事件
+      loadend 事件总是在一个资源的加载进度停止之后被触发 (例如，在已经触发“error”，“abort”或“load”事件之后)
+  */
+  xhr.addEventListener('loadend', () => {
+
+    /* 
+      响应内容在 xhr.responses
+    */
+    console.log(xhr.response);
+
+    /* 
+      转换成JS对象
+    */
+    const resp = JSON.parse(xhr.response);
+    console.log(resp);
+  });
+
+  /* 
+    send() 发起请求
+  */
+  xhr.send();
+</script>
+
+</html>

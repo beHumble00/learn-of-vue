@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="getProvince()">获取省份</button>
+    <ul>
+      <li v-for="item in list">{{item}}</li>
+    </ul>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      list: [],
+
+    },
+    methods: {
+      getProvince() {
+        /*
+          语法:
+            axios({
+              url: '目标资源地址'
+            }).then((result) => {
+              // 对服务器返回的数据做后续处理
+            })
+        */
+        axios({
+          url: 'http://hmajax.itheima.net/api/province',
+        }).then(result => {
+          console.log(result);
+          alert(result.data.message);
+          this.list = result.data.list;
+        });
+
+        axios({
+          url: 'http://hmajax.itheima.net/api/news',
+        }).then(res => {
+          console.log(res.data);
+        })
+      }
+    }
+  })
+
+</script>
+
+</html>

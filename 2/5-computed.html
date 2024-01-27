@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  table {
+    border: 1px solid #000;
+    text-align: center;
+    width: 240px;
+  }
+
+  th,
+  td {
+    border: 1px solid #000;
+  }
+
+  h3 {
+    position: relative;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <h3>小黑的礼物清单</h3>
+    <table>
+      <tr>
+        <th>名字</th>
+        <th>数量</th>
+      </tr>
+      <tr v-for="(item, index) in list" :key="item.id">
+        <td>{{ item.name }}</td>
+        <td>{{ item.num }}个</td>
+      </tr>
+    </table>
+
+    <!-- 目标：统计求和，求得礼物总数 -->
+    <p>礼物总数 : {{getGifuCount}}</p>
+  </div>
+</body>
+<!-- 生产环境版本，优化了尺寸和速度 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      list: [
+        { id: 1, name: '篮球', num: 1 },
+        { id: 2, name: '玩具', num: 2 },
+        { id: 3, name: '铅笔', num: 5 },
+      ]
+    },
+    methods: {
+
+    },
+    computed: {
+      getGifuCount() {
+        /* 
+          reducer 逐个遍历数组元素，每一步都将当前元素的值与前一步的结果相加
+          （该结果是之前所有步骤结果的总和）——直到没有更多需要相加的元素。
+          callback fun
+            prev - 上一次处理的回调结果
+            item - 当前处理的元素
+
+          0 初始值
+        */
+        // this.list.forEach(item => gifuCount += item.num);
+        return this.list.reduce((prev, item) => {
+          return prev += item.num;
+        }, 0)
+      }
+    }
+  })
+</script>
+
+</html>
