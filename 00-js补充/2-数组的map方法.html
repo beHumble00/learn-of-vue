@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+      map(callbackFn)
+      map(callbackFn, thisArg)
+        创建一个新数组，这个新数组由原数组中的每个元素都调用一次提供的函数后的返回值组成。
+      
+      callbackFn(element, index, array)
+        element
+          数组中当前正在处理的元素。
+
+        index
+          正在处理的元素在数组中的索引
+
+        array
+          调用了 map() 的数组本身。
+
+
+      thisArg 可选
+        执行 callbackFn 时用作 this 的值
+    */
+
+    /* 
+     使用 map 格式化数组中的对象 
+    */
+    const cart = [
+      { id: 1, goodsName: 'iPhone 14', price: 5999 },
+      { id: 2, goodsName: 'MacBook', price: 7999 },
+      { id: 2, goodsName: 'Balenciaga shoes', price: 8999 }
+    ];
+
+    let data = [
+      { value: 1234, name: 'bb' }
+    ]
+
+    const cartFormateToData = cart.map(ele => {
+      return ({ value: ele.price, name: ele.goodsName })
+    })
+    console.log(cartFormateToData);
+    data.push(...cartFormateToData)
+    console.log(data);
+  </script>
+</body>
+
+</html>
