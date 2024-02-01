@@ -6,6 +6,10 @@
       <a href="#/friend">朋友</a>
     </div>
     <div class="top">
+      <!-- 
+        router-view 组件
+          匹配的组件展示的位置
+       -->
        <router-view></router-view>
     </div>
   </div>
