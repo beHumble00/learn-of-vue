@@ -20,7 +20,7 @@ export default {
   },
   name: "MyFriend",
   created() {
-    this.keyword = this.$route.query.keyword;
+    this.keyword = this.$route.params.keyword;
   },
 };
 </script>

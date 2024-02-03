@@ -2,8 +2,8 @@
   <div class="home">
     <div class="logo-box"></div>
     <div class="search-box">
-      <input type="text" />
-      <button>搜索一下</button>
+      <input type="text" v-model="keyword" />
+      <button @click="goSearch">搜索一下</button>
     </div>
     <div class="hot-link">
       热门搜索：
@@ -20,11 +20,9 @@
             对应页面组件**接受参数**:
             params后面的参数名要和动态路由配置的参数保持一致
        -->
-      <router-link to="/search?keyword=黑马程序员">黑马程序员</router-link>
-      <router-link to="/search?keyword=前端培训">前端培训</router-link>
-      <router-link to="/search?keyword=如何成为前端大牛"
-        >如何成为前端大牛</router-link
-      >
+      <router-link to="/search/黑马程序员">黑马程序员</router-link>
+      <router-link to="/search/前端培训">前端培训</router-link>
+      <router-link to="/search/如何成为前端大牛">如何成为前端大牛</router-link>
     </div>
   </div>
 </template>
@@ -32,6 +30,35 @@
 <script>
 export default {
   name: "FindMusic",
+  data() {
+    return {
+      keyword: "",
+    };
+  },
+  methods: {
+    goSearch() {
+      /* 
+        路由跳转方式
+      this.$router.push("/search");
+      */
+
+      // 完整写法:
+      // this.$router.push({
+      //   path: "/search",
+      //   query: {
+      //     keyword: this.keyword,
+      //   },
+      // });
+
+      // this.$router.push(`/search/${this.keyword}`);
+      this.$router.push({
+        name: "toSearch",
+        params: {
+          keyword: this.keyword,
+        },
+      });
+    },
+  },
 };
 </script>
 
