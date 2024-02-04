@@ -26,6 +26,8 @@ const router = new VueRouter({
           component: Like
         },
         {
+
+          
           path: 'user',
           component: User
         }
