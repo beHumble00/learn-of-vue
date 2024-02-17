@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import user from "./modules/user";
+import setting from "./modules/setting";
 Vue.use(Vuex);
 const store = new Vuex.Store({
 
@@ -15,7 +17,8 @@ const store = new Vuex.Store({
   */
   state: {
     count: 100,
-    title: 'title'
+    title: 'title',
+    list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
   // state数据的修改只能通过mutations，并且mutations必须是同步的
   // mutations是一个对象，对象中存放修改state的方法
@@ -35,7 +38,48 @@ const store = new Vuex.Store({
     },
     setTitle(state, newTitle) {
       state.title = newTitle;
+    },
+    setCount(state, newCount) {
+      state.count = newCount;
     }
+  },
+
+  /* 
+    actions - 存放一些异步操作
+    同理也有个辅助函数 mapActions - 映射到 methods
+  */
+  actions: {
+    after1SecUpdateCount(context, newCount) {
+      setTimeout(() => {
+        context.commit('setCount', newCount);
+      }, 1000);
+    }
+  },
+
+  /* 
+    筛选符合条件的数据
+      辅助函数 - mapGetters - 映射到 computed
+  */
+  getters: {
+    // filterList(state) {
+    //   return state.list.filter(item => item <= 5);
+    // }
+    filterList: state => state.list.filter(item => item <= 5)
+  },
+
+
+  /* 
+    分模块 - 全写一起很臃肿, Vuex会变得越来越难以维护 所以又有了Vuex的模块化
+  */
+
+  /*
+  使用模块中的数据,  可以直接通过模块名访问 `$store.state.模块名.xxx`  =>  `$store.state.setting.desc`
+  也可以通过 mapState 映射
+  */
+  modules: {
+    user,
+    setting,
   }
+
 });
 export default store;

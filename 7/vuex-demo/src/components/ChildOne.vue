@@ -12,6 +12,7 @@
     <p>从vuex中获取的值:{{ count }}</p>
     <br />
     <button @click="addCount">值 + 1</button>
+    <button @click="setCountTo666">1秒后将值改为666</button>
   </div>
 </template>
 
@@ -21,9 +22,14 @@ export default {
     addCount() {
       this.$store.commit("addCount");
     },
+    setCountTo666() {
+      this.$store.dispatch("after1SecUpdateCount", 666);
+    },
   },
   /* 
     把state中数据，定义在组件内的计算属性中
+
+    t
   */
   computed: {
     count() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Child One组件</h1>
+    <h1>Child Two组件</h1>
     <!-- 
       访问 vuex 中的数据
         第一种方法: 

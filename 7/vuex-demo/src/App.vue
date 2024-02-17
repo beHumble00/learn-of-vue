@@ -16,12 +16,22 @@
     />
     <ChildOne></ChildOne>
     <ChildTwo></ChildTwo>
+
+    <div>
+      {{ $store.getters.filterList }}
+    </div>
+    <hr />
+    <div>
+      <h3>user</h3>
+      <User></User>
+    </div>
   </div>
 </template>
 
 <script>
 import ChildOne from "./components/ChildOne.vue";
 import ChildTwo from "./components/ChildTwo.vue";
+import User from "./components/User.vue";
 /* 
   通过辅助函数 mapState 获取
     --mapState是辅助函数，帮助我们把store中的数据映射到 组件的计算属性中, 它属于一种方便的用法
@@ -48,6 +58,7 @@ export default {
   components: {
     ChildOne,
     ChildTwo,
+    User,
   },
 
   created() {
