@@ -25,16 +25,19 @@
         </div>
         <div class="form-item">
           <input
+            v-model="picCode"
             class="inp"
             maxlength="5"
             placeholder="请输入图形验证码"
             type="text"
           />
-          <img src="@/assets/code.png" alt="" />
+          <img v-if="picUrl" :src="picUrl" alt="" @click="getPicCode" />
         </div>
         <div class="form-item">
           <input class="inp" placeholder="请输入短信验证码" type="text" />
-          <button>获取验证码</button>
+          <button @click="getCode()" :disabled="isDisabled" :class="{'send-code-btn-disable' : isDisabled}">
+            {{ second === totalSecond ? '发送验证码' : second + '秒后发送'}}
+          </button>
         </div>
       </div>
 
@@ -44,14 +47,54 @@
 </template>
 
 <script>
-import request from '@/utils/request'
+import { getPicCode } from '@/api/login'
 export default {
   name: 'LoginIndex',
-  async created () {
-    const res = await request.get('/captcha/image')
-    console.log(res)
+  data () {
+    return {
+      // 用户输入的图形验证码
+      picCode: '',
+      // 请求传递的验证码图片唯一标识
+      picKey: '',
+      // 图片渲染路径
+      picUrl: '',
+      totalSecond: 60,
+      second: 60,
+      timer: null,
+      isDisabled: false
+    }
   },
-  methods: {}
+  methods: {
+    async getPicCode () {
+      const {
+        data: { base64, key }
+      } = await getPicCode()
+      this.picUrl = base64
+      this.picKey = key
+    },
+    async getCode () {
+      if (!this.timer && this.second === this.totalSecond) {
+        this.timer = setInterval(() => {
+          this.isDisabled = true
+          this.second--
+          if (this.second < 1) {
+            clearInterval(this.timer)
+            this.timer = null
+            this.second = this.totalSecond
+            this.isDisabled = false
+          }
+        }, 1000)
+      }
+      this.$toast('发送成功, 请注意查收')
+    }
+  },
+  async created () {
+    this.getPicCode()
+  },
+  // 离开页面时销毁定时器
+  destroyed () {
+    clearInterval(this.timer)
+  }
 }
 </script>
 
@@ -112,6 +155,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .send-code-btn-disable {
+     color: #b8b8b8 !important;
   }
 }
 </style>
