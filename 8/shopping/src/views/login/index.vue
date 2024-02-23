@@ -21,11 +21,12 @@
             maxlength="11"
             placeholder="请输入手机号码"
             type="text"
+            v-model.trim="phoneNumber"
           />
         </div>
         <div class="form-item">
           <input
-            v-model="picCode"
+            v-model.trim="picCode"
             class="inp"
             maxlength="5"
             placeholder="请输入图形验证码"
@@ -61,10 +62,14 @@ export default {
       totalSecond: 60,
       second: 60,
       timer: null,
-      isDisabled: false
+      // 发送验证码按钮禁用状态
+      isDisabled: false,
+      // 手机号
+      phoneNumber: ''
     }
   },
   methods: {
+    // 获取图形验证码
     async getPicCode () {
       const {
         data: { base64, key }
@@ -72,7 +77,12 @@ export default {
       this.picUrl = base64
       this.picKey = key
     },
+    // 获取登录验证码
     async getCode () {
+      if (this.verifyFn()) {
+        return
+      }
+
       if (!this.timer && this.second === this.totalSecond) {
         this.timer = setInterval(() => {
           this.isDisabled = true
@@ -86,6 +96,26 @@ export default {
         }, 1000)
       }
       this.$toast('发送成功, 请注意查收')
+    },
+    // 登录校验
+    verifyFn () {
+      if (!this.phoneNumber) {
+        this.$toast('请先输入手机号码')
+        return false
+      }
+      if (!/^1[3456789]\d{9}$/.test(this.phoneNumber)) {
+        this.$toast('请检查手机号码是否正确')
+        return false
+      }
+      if (!this.picCode) {
+        this.$toast('请先输入验证码')
+        return false
+      }
+      if (!/^\w{4}$/.test(this.picCode)) {
+        this.$toast('请检查验证码是否正确')
+        return false
+      }
+      return true
     }
   },
   async created () {
