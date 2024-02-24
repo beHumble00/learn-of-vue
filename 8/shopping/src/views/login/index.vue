@@ -87,6 +87,7 @@ export default {
         this.timer = setInterval(() => {
           this.isDisabled = true
           this.second--
+
           if (this.second < 1) {
             clearInterval(this.timer)
             this.timer = null
