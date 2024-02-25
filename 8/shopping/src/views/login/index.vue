@@ -77,26 +77,24 @@ export default {
       this.picUrl = base64
       this.picKey = key
     },
-    // 获取登录验证码
+    // 获取登录短信验证码
     async getCode () {
       if (this.verifyFn()) {
-        return
-      }
+        if (!this.timer && this.second === this.totalSecond) {
+          this.timer = setInterval(() => {
+            this.isDisabled = true
+            this.second--
 
-      if (!this.timer && this.second === this.totalSecond) {
-        this.timer = setInterval(() => {
-          this.isDisabled = true
-          this.second--
-
-          if (this.second < 1) {
-            clearInterval(this.timer)
-            this.timer = null
-            this.second = this.totalSecond
-            this.isDisabled = false
-          }
-        }, 1000)
+            if (this.second < 1) {
+              clearInterval(this.timer)
+              this.timer = null
+              this.second = this.totalSecond
+              this.isDisabled = false
+            }
+          }, 1000)
+        }
+        this.$toast('发送成功, 请注意查收')
       }
-      this.$toast('发送成功, 请注意查收')
     },
     // 登录校验
     verifyFn () {
