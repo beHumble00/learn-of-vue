@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getPicCode } from '@/api/login'
+import { getMsgCode, getPicCode } from '@/api/login'
 export default {
   name: 'LoginIndex',
   data () {
@@ -79,21 +79,24 @@ export default {
     },
     // 获取登录短信验证码
     async getCode () {
-      if (this.verifyFn()) {
-        if (!this.timer && this.second === this.totalSecond) {
-          this.timer = setInterval(() => {
-            this.isDisabled = true
-            this.second--
-
-            if (this.second < 1) {
-              clearInterval(this.timer)
-              this.timer = null
-              this.second = this.totalSecond
-              this.isDisabled = false
-            }
-          }, 1000)
-        }
+      if (!this.verifyFn()) {
+        return
+      }
+      if (!this.timer && this.second === this.totalSecond) {
+        await getMsgCode(this.picCode, this.picKey, this.phoneNumber)
         this.$toast('发送成功, 请注意查收')
+
+        this.timer = setInterval(() => {
+          this.isDisabled = true
+          this.second--
+
+          if (this.second < 1) {
+            clearInterval(this.timer)
+            this.timer = null
+            this.second = this.totalSecond
+            this.isDisabled = false
+          }
+        }, 1000)
       }
     },
     // 登录校验
